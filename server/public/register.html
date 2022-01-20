@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>SHARE MARKET</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <section class="register">
+            <nav>
+                <a href="index.html"><img src="img/img1.jpg" alt=""></a>
+                <div class="nav-links">
+                    <ul>
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="about.html">ABOUT</a></li>
+                        <li><a href="login.html">LOGIN</a></li>
+                     </ul>
+                    </div>
+               
+            </nav>
+            <div class="Register">
+              <h1>Register</h1>
+            </div>
+            <form id="registrationForm">
+                <div class="input-box">
+                    <p>Full Name</p>
+                    <input id="fullname" type="text"placeholder="Enter your name" required>
+                </div>
+                <div class="input-box">
+                    <p>Username </p>
+                    <input id="username" type="text"placeholder="Enter your username" required>
+                </div>
+                <div class="input-box">
+                    <p>Email </p>
+                    <input id="email" type="text"placeholder="Enter your email" required>
+                </div>
+                <div class="input-box">
+                    <p>Phone Number</p>
+                    <input id="phno" type="number"placeholder="Enter your number" maxlength="10" required>
+                </div>
+                <div class="input-box">
+                    <p>DOB </p>
+                   <input id="dob" type="date"placeholder="DOB"  required>
+                </div>
+                <div class="input-box">
+                    <p>Password </p>
+                    <input id="password" type="password"placeholder="Enter your password" required>
+                </div>
+                <div class="input-box">
+                    <p>Confirm Password </p>
+                    <input id="confirmPassword" type="password"placeholder="Confirm password" required>
+                </div>
+                <div class="input-box">
+                    <p>Gender</p>
+                    <input id="gender" type="text"placeholder="Male or Female" required>
+                </div>
+                <div class="bank"></div>
+                <h1>Bank Details</h1>
+                <!-- <div class="input-box">
+                    <p>Full Name</p>
+                    <input type="text"placeholder="Enter your name"required>
+                </div>       -->
+                <div class="input-box">
+                    <p>Pancard Number</p>
+                    <input id="pan" type="text"placeholder="Enter Pancard Number" maxlength="10" required>
+                </div>  
+                <div class="input-box">
+                    <p>Account Number</p>
+                    <input id="acc" type="number"placeholder="Enter account number" maxlength="11" required>
+                </div>  
+                <div class="input-box">
+                    <p>IFSC Code </p>
+                    <input id="ifsc" type="text"placeholder="Enter IFSC Code " maxlength="11" required>
+                </div> 
+                <div class="input-box">
+                    <p>City</p>
+                    <input id="city" type="text"placeholder="Enter City" required>
+                </div>  
+                <div class="input-box">
+                    <p>State</p>
+                    <input id="state" type="text"placeholder="Enter State" required>
+                </div>  
+                <div class="input-box">
+                    <p>Country</p>
+                    <input id="country" type="text"placeholder="Enter Country" required>
+                </div>
+                <div class="submit" onsubmit="submitForm()">
+                    <input type="submit" name=""value="Submit">
+                    <a href="login.html"></a> 
+                </div>
+            </form>
+        </section>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            const form = document.getElementById('registrationForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const fullname = document.getElementById('fullname').value;
+                const username = document.getElementById('username').value;
+                const email = document.getElementById('email').value;
+                const phno = document.getElementById('phno').value;
+                const dob = document.getElementById('dob').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const gender = document.getElementById('gender').value;
+                const pan = document.getElementById('pan').value;
+                const acc = document.getElementById('acc').value;
+                const ifsc = document.getElementById('ifsc').value;
+                const city = document.getElementById('city').value;
+                const state = document.getElementById('state').value;
+                const country = document.getElementById('country').value;
+                if(password !== confirmPassword) {
+                    window.alert("Password does not match!!")
+                }
+                else {
+                    axios.post('http://localhost:8080/api/register',{fullname, username, email, phno, dob, password, gender, pan, acc, ifsc, city, state, country})
+                        .then( res => {
+                            window.location.href = "/static/login.html"
+                        })
+                        .catch( err => console.log(err))
+                }
+            })
+        </script>
+    </body>
+</html>
