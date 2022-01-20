@@ -1,4 +1,3 @@
-const {pool} = require('../../config/configDB');
 const { addUser, findUserByEmail } = require('../models/user');
 
 exports.login = (req, res) => {
