@@ -24,7 +24,7 @@
                     </div>
                
             </nav>
-            <h1>MRF</h1>
+            <h1 id="stockname"></h1>
             
             <img src="./img/mrf.jpeg" alt="stock-img" class="mrf"/>
             
@@ -38,7 +38,7 @@
         <br><br>
             <div class="price">
            <label for="AT PRICE">AT PRICE</label>
-           <input type="number" name="AT PRICE"placeholder="70,090.70" required="required">
+           <input type="number" name="AT PRICE"placeholder="70,090.70" id="price" required="required">
              <br><br>
            <label for="QUANTITY">QUANTITY</label>
            <input type="number" name="QUANTITY"placeholder="0.0" required="required">
@@ -52,6 +52,23 @@
            
             
             </section>
+            <script src="http://unpkg.com/axios/dist/axios.min.js"></script>       
+            <script>
+                let params = window.location.href.split('?')[1]
+                let stock = params.split('=')[1]
+                stock = stock.replace(/%20/g, ' ')
+                stock = stock.replace(/%27/g, '')
+                axios.post("http://localhost:8080/api/getStock", {stockname: stock}, {headers: {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}})
+                    .then((resp) => {
+                        const data = resp.data
+                        const stockname = document.getElementById('stockname')
+                        const price = document.getElementById('price')
+                        stockname.innerText = data.stockname
+                        price.value = data.price;
+                        console.log(data)
+                    })
+                    .catch((err) => {console.log(err)})
+            </script>
                 
     </body>
 </html>

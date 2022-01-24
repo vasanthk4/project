@@ -74,12 +74,14 @@
                         const stockbuy = document.getElementById('stockbuy')
                         if(Array.isArray(resp.data)) {
                             resp.data.forEach((e, index) => {
+                                console.log(e)
                                 const stock = document.createElement('div')
                                 const a = document.createElement('a')
-                                a.href = "/static/mrf.html"
+                                a.href = "/static/mrf.html?stock='"+e.stockname+"'";
                                 a.innerText = (index + 1) + " " + ". " + e.stockname
                                 stock.appendChild(a)
                                 stock.appendChild(document.createElement('br'))
+
                                 stockbuy.appendChild(stock)
                             });
                         }

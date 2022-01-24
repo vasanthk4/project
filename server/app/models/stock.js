@@ -4,7 +4,7 @@ module.exports.createStockTable = (localPool) => {
   return new Promise((resolve, reject) => {
     const query = "create table if not exists stock(" + 
     "id varchar(255)," +
-    "stockname varchar(10) unique," +
+    "stockname varchar(50) unique," +
     "photo varchar(10)," +
     "price float(10,2))";
     localPool.query(query, (err, data) => {
