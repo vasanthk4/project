@@ -1,4 +1,4 @@
-const { addUser, findUserByEmail } = require('../models/user');
+const { addUser, findUserByEmail, getWallet } = require('../models/user');
 
 exports.login = (req, res) => {
   const {email, password} = req.body;
@@ -6,8 +6,8 @@ exports.login = (req, res) => {
     .then((data) => {
       const user = data[0]
       if(user && user.password === password) {
-        const {username, role} = user;
-        res.json({username, role, success: true})
+        const {id, username, role} = user;
+        res.json({id, username, role, success: true})
       }
       else 
         res.status(401).json({error: "Please enter a valid email or password"})
@@ -36,5 +36,20 @@ exports.register = (req, res) => {
     .then(() => {
       res.json({success: true, message: "User successfully created"})
     })
-    .catch((err) => res.status(400).json(err))
+    .catch((err) => {
+      console.log(err)
+      res.status(400).json(err)
+    })
+}
+
+exports.getWallet = (req, res) => {
+  const {id} = req.params;
+  getWallet(id)
+    .then( (data) => {
+      res.json({success: true, wallet: data.wallet})
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(500).json({success: false, error: "Error while fetching wallet data"})
+    })
 }

@@ -43,7 +43,10 @@
                     const email = document.getElementById('email').value;
                     const password = document.getElementById('password').value;
                     axios.post('http://localhost:8080/api/login', {email, password})
-                        .then(() => window.location.href = "/static/stock.html")
+                        .then((resp) => {
+                            localStorage.setItem('userId', resp.data.id)
+                            window.location.href = "/static/stock.html"
+                        })
                         .catch(() => window.alert("Error while loggging in"))
                 })
             </script>

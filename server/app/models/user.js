@@ -17,6 +17,7 @@ module.exports.createUserTable = (localPool) => {
     "city varchar(20)," + 
     "state varchar(20)," +
     "country varchar(20)," +
+    "wallet float," +
     "role varchar(10))";
     localPool.query(query, (err, data) => {
       if(err) reject(err)
@@ -33,7 +34,7 @@ module.exports.addUser = (user) => {
     const {fullname, username, email, phno, dob, password, gender, pan, acc, ifsc, city, state, country, role} = user
     if(fullname && username && email && phno && dob && password && gender && pan && acc && ifsc && city && state && country) {
       const Role = role?role:"Customer"
-      const query = `insert into user values( uuid(),'${fullname}', '${username}', '${email}', ${phno}, '${dob}', '${password}', '${gender}', '${pan}', '${acc}', '${ifsc}', '${city}', '${state}', '${country}', '${Role}')`;
+      const query = `insert into user values( uuid(),'${fullname}', '${username}', '${email}', ${phno}, '${dob}', '${password}', '${gender}', '${pan}', '${acc}', '${ifsc}', '${city}', '${state}', '${country}', 0.0, '${Role}')`;
       pool.query(query, (err, data) => {
         if(err) reject(err)
         else resolve(data)
@@ -50,6 +51,35 @@ module.exports.findUserByEmail = (email) => {
     pool.query(query, (err, data) => {
       if(err) reject(err)
       else resolve(data)
+    })
+  })
+}
+
+module.exports.findUserById = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = `select * from user where id='${id}' limit 1`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve(data)
+    })
+  })}
+
+module.exports.updateWallet = (amount, id) => {
+  return new Promise((resolve, reject) => {
+    const query = `update user set wallet=${amount} where id='${id}' limit 1`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve(data)
+    })
+  })
+}
+
+module.exports.getWallet = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = `select wallet from user where id='${id}' limit 1`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve(data[0])
     })
   })
 }

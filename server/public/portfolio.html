@@ -27,13 +27,17 @@
 
            <h1>PORTFOLIO</h1>
 
+           <div class="totalAmount">
+               <h2 class="">Total Amount: </h2>
+               <h3 id="totalAmountValue"></h3>
+           </div>
+
            <table class="portfolioTable">
                <thead>
                    <tr class="row">
                        <td>Stock name</td>
                        <td>Quantity</td>
                        <td>Invested Amount</td>
-                       <td>Total Amount</td>
                        <td>Date</td>
                    </tr>
                </thead>
@@ -42,13 +46,26 @@
                         <td>MRF</td>
                         <td>10</td>
                         <td>3000</td>
-                        <td>5000</td>
                         <td>10/12/2019</td>
                    </tr>
                </tbody>
            </table>
             
             </section>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            const totalAmount = document.getElementById('totalAmountValue')
+            const id = localStorage.getItem('userId')
+            if(id)
+                axios.get('http://localhost:8080/api/wallet/' + id)
+                    .then( res => {
+                        console.log(res.data)
+                        if(res.data && res.data.wallet) {
+                            totalAmount.innerText = res.data.wallet
+                        }
+                    })
+                    .catch( err => console.log(err))
+        </script>
                 
     </body>
 </html>
