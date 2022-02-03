@@ -13,5 +13,6 @@ router.get('/allStocks', stockControllers.getAllStocks)
 router.post('/getStock', stockControllers.getStock);
 router.post('/insertStock', stockControllers.insertStock);
 router.post('/payment', paymentControllers.acceptPayment);
+router.get('/paymenthistory/:id', paymentControllers.history)
 
 module.exports.routes = router;

@@ -1,4 +1,4 @@
-const {acceptPayment} = require('../models/payment');
+const {acceptPayment, getUserPayments} = require('../models/payment');
 const {findUserById, updateWallet} = require('../models/user');
 
 module.exports.acceptPayment = (req, res) => {
@@ -18,4 +18,16 @@ module.exports.acceptPayment = (req, res) => {
       res.json({success: true, message: "Payment Successful!!"})
     })
     .catch(err => {console.log(err);res.status(500).json({error: "Error while payment"})})
+}
+
+exports.history = (req, res) => {
+  const {id} = req.params
+  getUserPayments(id)
+    .then(data => {
+      res.json(data)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({success: false, message: "Error while retrieving payments"})
+    })
 }
