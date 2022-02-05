@@ -30,23 +30,15 @@
            <table class="portfolioTable">
                <thead>
                    <tr class="row">
+                       <td>Exchange Id</td>
                        <td>Stock name</td>
                        <td>Quantity</td>
-                       <td>Invested Amount</td>
+                       <td>Amount</td>
                        <td>Date</td>
-                       <td>Actions</td>
+                       <td>Exchange Type</td>
                    </tr>
                </thead>
-               <tbody>
-                   <tr class="row">
-                        <td>MRF</td>
-                        <td>10</td>
-                        <td>3000</td>
-                        <td>10/12/2019</td>
-                        <td class="actions">
-                          Buy
-                        </td>
-                   </tr>
+               <tbody id="exchangeHistoryTable">
                </tbody>
            </table>
 
@@ -69,6 +61,7 @@
             <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
             <script>
                 const paymentHistoryTable = document.getElementById('paymentHistoryTable')
+                const exchangeHistoryTable = document.getElementById('exchangeHistoryTable')
                 const userId = localStorage.getItem('userId')
                 axios.get('http://localhost:8080/api/paymenthistory/' + userId)
                     .then( res => {
@@ -92,6 +85,35 @@
                             entry.appendChild(date)
                             entry.appendChild(time)
                             paymentHistoryTable.appendChild(entry)
+                        })
+                    })
+                    .catch( err => console.log(err))
+                axios.get('http://localhost:8080/api/exchangehistory/' + userId)
+                    .then( res => {
+                        res.data.forEach((exchange) => {
+                            const amount = document.createElement('td')
+                            const id = document.createElement('td')
+                            const date = document.createElement('td')
+                            const quantity = document.createElement('td')
+                            const name = document.createElement('td')
+                            const exchangeType = document.createElement('td')
+                            const entry = document.createElement('tr')
+                            entry.classList.add('row')
+
+                            id.innerText = exchange.id;
+                            name.innerText = exchange.stockname;
+                            quantity.innerText = exchange.quantity;
+                            amount.innerText = exchange.amount;
+                            date.innerText = exchange.date.split('T')[0];
+                            exchangeType.innerText = exchange.exchangeType;
+
+                            entry.appendChild(id)
+                            entry.appendChild(name)
+                            entry.appendChild(quantity)
+                            entry.appendChild(amount)
+                            entry.appendChild(date)
+                            entry.appendChild(exchangeType)
+                            exchangeHistoryTable.appendChild(entry)
                         })
                     })
                     .catch( err => console.log(err))

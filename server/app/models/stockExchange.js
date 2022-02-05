@@ -34,3 +34,13 @@ module.exports.exchangeStock = ({stockId, userId, amount, quantity, exchangeType
     })
   })
 }
+
+module.exports.getExchangeHistory = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = `select e.id, s.stockname, e.quantity, e.amount, e.date, e.exchangeType from stock s, stockExchange e where e.userId='${id}' and e.stockId=s.id order by e.date desc`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve(data)
+    })
+  })
+}

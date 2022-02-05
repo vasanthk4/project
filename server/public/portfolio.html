@@ -59,13 +59,11 @@
             if(id)
                 axios.get('http://localhost:8080/api/wallet/' + id)
                     .then( res => {
-                        console.log(res.data)
                         if(res.data && res.data.wallet) {
                             totalAmount.innerText = res.data.wallet
                         }
                     })
                     .catch( err => console.log(err))
-        </script>
-                
+        </script>         
     </body>
 </html>

@@ -84,9 +84,19 @@ module.exports.getWallet = (id) => {
   })
 }
 
-module.exports.spendWallet = (id, amount) => {
+module.exports.addToWallet = (id, amount) => {
   return new Promise((resolve, reject) => {
-    const query = `update user set wallet=wallet+${amount} where id=${id}`
+    const query = `update user set wallet=wallet+${amount} where id='${id}'`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve()
+    })
+  })
+}
+
+module.exports.spendFromWallet = (id, amount) => {
+  return new Promise((resolve, reject) => {
+    const query = `update user set wallet=wallet-${amount} where id='${id}'`
     pool.query(query, (err, data) => {
       if(err) reject(err)
       else resolve()
