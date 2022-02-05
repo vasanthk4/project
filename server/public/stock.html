@@ -26,23 +26,8 @@
             </nav>
             <h1>STOCKS</h1>
             <div class="flex">
-                <div class="stockbuy">
-                    <p>BUY</p><a href="mrf.html">1. MRF Limited</a>
-                    <br>
-                    <a href="britannia.html">2. Britannia Industries Limited</a>
-                    <br>
-                    <a href="tata.html">3. Tata Motors Limited</a>
-                    <br>
-                    <a href="asian.html">4. Asian Paints Limited</a>
-                    <br>
-                    <a href="sbi.html">5. State Bank Of India</a>
-                    <br>
-                    <a href="wipro.html">6. Wipro Limited</a>
-                    <br>
-                    <a href="adani.html">7. Adani Power Limited</a>
-                    <br>
-                    <a href="tcs.html">8. Tata Consultancy Services Limited</a>
-                    <br>
+                <div class="stockbuy" id="stockbuy">
+                    <p>BUY</p>
                 </div> 
     
                     <div class="stocksell">
@@ -66,6 +51,26 @@
                     </div>
                 </div>
             </section>
-                
+            <script src="http://unpkg.com/axios/dist/axios.min.js"></script>       
+            <script>
+                axios.get("http://localhost:8080/api/allStocks", {headers: {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}})
+                    .then((resp) => {
+                        const stockbuy = document.getElementById('stockbuy')
+                        if(Array.isArray(resp.data)) {
+                            resp.data.forEach((e, index) => {
+                                console.log(e)
+                                const stock = document.createElement('div')
+                                const a = document.createElement('a')
+                                a.href = "/static/stocks.html?stock='"+e.stockname+"'";
+                                a.innerText = (index + 1) + " " + ". " + e.stockname
+                                stock.appendChild(a)
+                                stock.appendChild(document.createElement('br'))
+
+                                stockbuy.appendChild(stock)
+                            });
+                        }
+                    })
+                    .catch((err) => {console.log(err)})
+            </script>
     </body>
 </html>

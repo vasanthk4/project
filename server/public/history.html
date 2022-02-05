@@ -25,32 +25,98 @@
                
             </nav>
 
-           <h1>HISTORY</h1>
+           <h1>STOCK HISTORY</h1>
 
            <table class="portfolioTable">
                <thead>
                    <tr class="row">
+                       <td>Exchange Id</td>
                        <td>Stock name</td>
                        <td>Quantity</td>
-                       <td>Invested Amount</td>
+                       <td>Amount</td>
                        <td>Date</td>
-                       <td>Actions</td>
+                       <td>Exchange Type</td>
                    </tr>
                </thead>
-               <tbody>
+               <tbody id="exchangeHistoryTable">
+               </tbody>
+           </table>
+
+           <h1 class="paymentHistory">PAYMENT HISTORY</h1>
+
+           <table class="portfolioTable">
+               <thead>
                    <tr class="row">
-                        <td>MRF</td>
-                        <td>10</td>
-                        <td>3000</td>
-                        <td>10/12/2019</td>
-                        <td class="actions">
-                          Buy
-                        </td>
+                       <td>Amount</td>
+                       <td>Transaction ID</td>
+                       <td>Date</td>
+                       <td>Time</td>
                    </tr>
+               </thead>
+               <tbody id="paymentHistoryTable">
                </tbody>
            </table>
             
             </section>
-                
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <script>
+                const paymentHistoryTable = document.getElementById('paymentHistoryTable')
+                const exchangeHistoryTable = document.getElementById('exchangeHistoryTable')
+                const userId = localStorage.getItem('userId')
+                axios.get('http://localhost:8080/api/paymenthistory/' + userId)
+                    .then( res => {
+                        res.data.forEach((payment) => {
+                            const amount = document.createElement('td')
+                            const id = document.createElement('td')
+                            const date = document.createElement('td')
+                            const time = document.createElement('td')
+                            const entry = document.createElement('tr')
+                            const tempDate = payment.date.split('T')[0]
+                            const tempTime = payment.date.split('T')[1].split(':')
+                            entry.classList.add('row')
+
+                            amount.innerText = payment.amount;
+                            id.innerText = payment.id;
+                            date.innerText = tempDate;
+                            time.innerText = `${tempTime[0]} : ${tempTime[1]}`
+
+                            entry.appendChild(amount)
+                            entry.appendChild(id)
+                            entry.appendChild(date)
+                            entry.appendChild(time)
+                            paymentHistoryTable.appendChild(entry)
+                        })
+                    })
+                    .catch( err => console.log(err))
+                axios.get('http://localhost:8080/api/exchangehistory/' + userId)
+                    .then( res => {
+                        res.data.forEach((exchange) => {
+                            const amount = document.createElement('td')
+                            const id = document.createElement('td')
+                            const date = document.createElement('td')
+                            const quantity = document.createElement('td')
+                            const name = document.createElement('td')
+                            const exchangeType = document.createElement('td')
+                            const entry = document.createElement('tr')
+                            entry.classList.add('row')
+
+                            id.innerText = exchange.id;
+                            name.innerText = exchange.stockname;
+                            quantity.innerText = exchange.quantity;
+                            amount.innerText = exchange.amount;
+                            date.innerText = exchange.date.split('T')[0];
+                            exchangeType.innerText = exchange.exchangeType;
+
+                            entry.appendChild(id)
+                            entry.appendChild(name)
+                            entry.appendChild(quantity)
+                            entry.appendChild(amount)
+                            entry.appendChild(date)
+                            entry.appendChild(exchangeType)
+                            exchangeHistoryTable.appendChild(entry)
+                        })
+                    })
+                    .catch( err => console.log(err))
+            </script>
     </body>
 </html>

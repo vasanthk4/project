@@ -1,15 +1,14 @@
 const { createUserTable } = require('./user');
+const { createStockTable } = require('./stock');
+const { createPaymentTable } = require('./payment');
+const { createStockExchangeTable } = require('./stockExchange');
 const { pool } = require('../../config/configDB')
-
-const createAnotherTable = () => {
-  return new Promise((resolve, reject) => {
-    resolve("Another Table created!!")
-  })
-}
 
 module.exports.createAllTables = () => {
   createUserTable(pool)
-    .then(() => createAnotherTable())
-    .then(() => console.log("Table creations successful!"))
+    .then(() => createStockTable(pool))
+    .then(() => createPaymentTable(pool))
+    .then(() => createStockExchangeTable(pool))
+    .then(() => console.log("All Tables created successfully"))
     .catch((err) => console.log("Table creation was unsuccessful\n", err))
 }
