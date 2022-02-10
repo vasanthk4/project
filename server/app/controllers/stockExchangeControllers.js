@@ -1,4 +1,5 @@
 const { exchangeStock, getExchangeHistory } = require('../models/stockExchange');
+const { updatePortfolio } = require('./portfolioControllers');
 const { spendFromWallet, addToWallet, getWallet } = require('../models/user');
 
 module.exports.exchangeStock = (req, res) => {
@@ -19,6 +20,11 @@ module.exports.exchangeStock = (req, res) => {
       if(exchangeType === "buy")
         return spendFromWallet(userId, amount)
       return addToWallet(userId, amount)
+    })
+    .then(() => {
+      if(exchangeType === "buy")
+        return updatePortfolio({userId, stockId, quantity, amount})
+      else return updatePortfolio({userId, stockId,quantity: -quantity,amount: -amount})
     })
     .then(() => res.json({success: true, message: "Stock purchased successfully"}))
     .catch( err => {console.log(err); res.status(500).json({success: false, message: "Error while payment"})})

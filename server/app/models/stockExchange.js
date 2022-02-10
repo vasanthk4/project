@@ -9,9 +9,9 @@ module.exports.createStockExchangeTable = (localPool) => {
     "userId varchar(255)," +
     "stockId varchar(255)," + 
     "exchangeType varchar(10)," +
-    "date  datetime default now()" + 
-    // "foreign key (userId) references user(id) on delete cascade," +
-    // "foreign key (stockId) references stock(id) on delete cascade" +
+    "date  datetime default now()," + 
+    "foreign key (userId) references user(id) on delete cascade," +
+    "foreign key (stockId) references stock(id) on delete cascade" +
     ")"
     localPool.query(query, (err, data) => {
       if(err) reject(err)

@@ -3,7 +3,7 @@ const {pool} = require('../../config/configDB');
 module.exports.createStockTable = (localPool) => {
   return new Promise((resolve, reject) => {
     const query = "create table if not exists stock(" + 
-    "id varchar(255)," +
+    "id varchar(255) primary key," +
     "stockname varchar(50) unique," +
     "photo varchar(10)," +
     "price float(10,2))";
@@ -37,6 +37,21 @@ module.exports.findStock = (stockname) => {
     pool.query(query, (err, data) => {
       if(err) reject(err)
       else resolve(data[0])
+    })
+  })
+}
+
+module.exports.addDefaultStocks = (stocks) => {
+  return new Promise((resolve, reject) => {
+    let query = "insert ignore into stock values"
+    stocks.forEach((stock) => {
+      const {stockname, photo, price} = stock;
+      query += `(uuid(), '${stockname}', '${photo}', ${price}),`
+    })
+    query = query.slice(0,-1);
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve(data)
     })
   })
 }

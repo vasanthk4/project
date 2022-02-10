@@ -38,32 +38,48 @@
                        <td>Stock name</td>
                        <td>Quantity</td>
                        <td>Invested Amount</td>
-                       <td>Date</td>
                    </tr>
                </thead>
-               <tbody>
-                   <tr class="row">
-                        <td>MRF</td>
-                        <td>10</td>
-                        <td>3000</td>
-                        <td>10/12/2019</td>
-                   </tr>
-               </tbody>
+               <tbody id="portfolioTableData"></tbody>
            </table>
             
             </section>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
             const totalAmount = document.getElementById('totalAmountValue')
+            const portfolioTable = document.getElementById("portfolioTableData")
             const id = localStorage.getItem('userId')
-            if(id)
+            if(id) {
                 axios.get('http://localhost:8080/api/wallet/' + id)
                     .then( res => {
-                        if(res.data && res.data.wallet) {
+                        if(res.data && (res.data.wallet || res.data.wallet === 0)) {
                             totalAmount.innerText = res.data.wallet
                         }
                     })
                     .catch( err => console.log(err))
+                axios.get('http://localhost:8080/api/portfolio/' + id)
+                    .then( res => {
+                        if(res.data && Array.isArray(res.data)) {
+                            res.data.forEach((stock) => {
+                                const row = document.createElement('tr')
+                                const stockname = document.createElement('td')
+                                const quantity = document.createElement('td')
+                                const amount = document.createElement('td')
+
+                                stockname.innerText = stock.stockname
+                                quantity.innerText = stock.quantity
+                                amount.innerText = stock.amount
+
+                                row.appendChild(stockname)
+                                row.appendChild(quantity)
+                                row.appendChild(amount)
+                                row.classList.add('row')
+                                portfolioTable.appendChild(row)
+                            })
+                        }
+                    })
+                    .catch( err => console.log(err))
+            }
         </script>         
     </body>
 </html>

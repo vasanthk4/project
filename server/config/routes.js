@@ -5,6 +5,7 @@ const { createAllTables } = require('../app/models/createAllTables');
 const stockControllers = require('../app/controllers/stockControllers');
 const paymentControllers = require('../app/controllers/paymentControllers');
 const stockExchangeControllers = require('../app/controllers/stockExchangeControllers');
+const portfolioControllers = require('../app/controllers/portfolioControllers');
 
 createAllTables()
 router.post('/login', userControllers.login);
@@ -17,5 +18,7 @@ router.post('/payment', paymentControllers.acceptPayment);
 router.get('/paymenthistory/:id', paymentControllers.history)
 router.post('/exchangestock', stockExchangeControllers.exchangeStock)
 router.get('/exchangehistory/:id', stockExchangeControllers.getExchangeHistory)
+router.get('/portfolio/:id', portfolioControllers.getPortfolio)
+// router.post('/portfolio/update/:id', portfolioControllers.updatePortfolio)
 
 module.exports.routes = router;

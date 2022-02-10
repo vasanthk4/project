@@ -3,7 +3,7 @@ const {pool} = require('../../config/configDB');
 module.exports.createUserTable = (localPool) => {
   return new Promise((resolve, reject) => {
     const query = "create table if not exists user(" + 
-    "id varchar(255)," +
+    "id varchar(255) primary key," +
     "fullname varchar(50)," + 
     "username varchar(20)," +
     "email varchar(50) unique," + 
