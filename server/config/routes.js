@@ -12,13 +12,18 @@ router.post('/login', userControllers.login);
 router.post('/register', userControllers.register);
 router.get('/wallet/:id', userControllers.getWallet)
 router.get('/allStocks', stockControllers.getAllStocks)
+router.get('/allStocksAdmin', stockControllers.getAllStocksAdmin)
 router.post('/getStock', stockControllers.getStock);
 router.post('/insertStock', stockControllers.insertStock);
+router.post('/deleteStock', stockControllers.deleteStock)
+router.post('/updateStock', stockControllers.updateStock)
 router.post('/payment', paymentControllers.acceptPayment);
 router.get('/paymenthistory/:id', paymentControllers.history)
 router.post('/exchangestock', stockExchangeControllers.exchangeStock)
 router.get('/exchangehistory/:id', stockExchangeControllers.getExchangeHistory)
 router.get('/portfolio/:id', portfolioControllers.getPortfolio)
+router.get('/allPayments', paymentControllers.getAllPaymentsHistory)
+router.get('/allUsers', userControllers.getAllUsers)
 // router.post('/portfolio/update/:id', portfolioControllers.updatePortfolio)
 
 module.exports.routes = router;

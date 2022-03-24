@@ -43,3 +43,13 @@ module.exports.getUserPayments = (userId) => {
     }
   })
 }
+
+module.exports.getAllPayments = () => {
+  return new Promise((resolve, reject) => {
+    const query = `select u.username, p.amount, p.date from user u, payment p where u.id=p.userId`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve(data)
+    })
+  })
+}

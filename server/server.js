@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const {routes} = require('./config/routes');
+const {htmlRouter} = require('./static');
 
 const port = 8080;
 
@@ -21,6 +22,6 @@ app.use((req, res, next) => {
 })
 app.use(express.json());
 app.use('/api', routes);
-app.use('/static', express.static('public'))
+app.use(htmlRouter())
 
 app.listen(port, () => {console.log('listening to port: ', port)})

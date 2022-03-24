@@ -103,3 +103,13 @@ module.exports.spendFromWallet = (id, amount) => {
     })
   })
 }
+
+module.exports.getUsers = () => {
+  return new Promise((resolve, reject) => {
+    const query = `select id, fullname, email, phno from user`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve(data)
+    })
+  })
+}

@@ -1,0 +1,74 @@
+/*..........admin page.......*/
+body{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  min-height: 100vh;
+}
+a{
+  width: 100%;
+  text-decoration: none;
+ font-size: 24px;
+  padding: 10px 0px;
+  color: #fff;
+  display: flex;
+}
+ul {
+  padding: 0px;
+}
+li{
+  list-style: none;
+}
+h1{
+  color: #444;
+}
+.side-menu{
+  background: #f44336;
+  width: 20vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.side-menu .stock-name{
+  padding-top: 20px;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.side-menu li{
+  font-size: 24px;
+  padding: 10px 0px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+.side-menu li:hover{
+  background: rgba(81, 81, 117, 0.795);
+  color: #f44336;
+}
+.content {
+  position: relative;
+  width: 80vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.totalstock{
+  height: auto;
+}
+.customers{
+  text-align: center;
+  height: auto;
+}
+.revenue{
+  height: auto;
+}
+
+.borderbox{
+  padding: 5px 10px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px lightgray;
+}

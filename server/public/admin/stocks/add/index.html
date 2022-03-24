@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>SHARE MARKET</title>
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../adminpages.css">
+        <link rel="stylesheet" href="add.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="side-menu">
+         <div class="stock-name">
+           <h1>GET STOCKS</h1>
+         </div>
+         <ul>
+             <li><a href="/admin">Dashboard</a></li>
+             <li><a href="/admin/users">Users</a></li>
+             <li><a href="/admin/stocks">Stocks</a></li>
+             <li><a href="/admin/payments">Payments</a></li>
+        </ul>
+        </div> 
+        <div class="content">
+            <div>
+                <div class="header-container"">
+                    <div class="header">
+                        Stocks
+                    </div>
+                </div>
+                <div>
+                  <form>
+                    <input id="stockname-input" type="text" placeholder="Stock Name" />
+                    <br/><br/>
+                    <input id="price-input" type="number" placeholder="Price" />
+                    <br/><br/>
+                    <button id="submit-btn">Submit</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+          const submit = document.getElementById('submit-btn')
+          submit.addEventListener('click', (e) => {
+            e.preventDefault()
+            const stockname = document.getElementById('stockname-input').value
+            const price = document.getElementById('price-input').value
+            axios.post('http://localhost:8080/api/insertStock', {stockname, price, photo: "a.png"})
+              .then( resp => {
+                window.location.href = "/admin/stocks"
+              }) 
+              .catch( err => console.log(err))
+          })
+
+        </script>
+    </body>
+</html>

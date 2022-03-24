@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>SHARE MARKET</title>
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../adminpages.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="side-menu">
+         <div class="stock-name">
+           <h1>GET STOCKS</h1>
+         </div>
+         <ul>
+             <li><a href="/admin">Dashboard</a></li>
+             <li><a href="/admin/users">Users</a></li>
+             <li><a href="/admin/stocks">Stocks</a></li>
+             <li><a href="/admin/payments">Payments</a></li>
+        </ul>
+        </div> 
+        <div class="content">
+            <div>
+                <div class="header-container"">
+                    <div class="header">
+                        Stocks
+                    </div>
+                    <div>
+                        <button class="stock-add" id="stock-add">
+                            Add
+                        </button>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Stock Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Actions</th>
+                            <!-- <th scope="col">Photo</th> -->
+                        </tr>
+                    </thead>
+                    <tbody id="table-rows">
+    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            const tableRows = document.getElementById('table-rows')
+            const addBtn = document.getElementById('stock-add')
+            addBtn.addEventListener('click', () => {
+                window.location.href = "/admin/stocks/add"
+            })
+
+            axios.get('http://localhost:8080/api/allStocksAdmin')
+                .then( res => {
+                    res.data.forEach((row, index) => {
+                        const rowElement = document.createElement('tr')
+                        const num = document.createElement('td')
+                        const stockname = document.createElement('td')
+                        const price = document.createElement('td')
+                        const photo = document.createElement('td')
+                        
+                        const actions = document.createElement('td')
+                        const updateBtn = document.createElement('button')
+                        const deleteBtn = document.createElement('button')
+
+                        updateBtn.innerText = "Update"
+                        deleteBtn.innerText = "Delete"
+
+                        updateBtn.addEventListener('click', () => {
+                            window.location.href = "/admin/stocks/update?id=" + row.id
+                        })
+                        deleteBtn.addEventListener('click', () => {
+                            axios.post('http://localhost:8080/api/deleteStock', {id: row.id})
+                                .then((resp) => {
+                                    console.log(resp.data)
+                                })
+                                .catch((err) => { console.log(err)})
+                        })
+
+                        actions.appendChild(updateBtn)
+                        actions.appendChild(deleteBtn)
+                        
+                        num.innerText = index + 1
+                        stockname.innerText = row.stockname
+                        price.innerText = "₹ " + row.price 
+
+                        rowElement.appendChild(num)
+                        rowElement.appendChild(stockname)
+                        rowElement.appendChild(price)
+                        rowElement.appendChild(actions)
+
+                        tableRows.appendChild(rowElement)
+                    })
+                })
+                .catch( err => console.log(err))
+        </script>
+    </body>
+</html>

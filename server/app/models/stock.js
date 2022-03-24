@@ -41,6 +41,16 @@ module.exports.findStock = (stockname) => {
   })
 }
 
+module.exports.findStockById = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = `select * from stock where id='${id}' limit 1`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve(data[0])
+    })
+  })
+}
+
 module.exports.addDefaultStocks = (stocks) => {
   return new Promise((resolve, reject) => {
     let query = "insert ignore into stock values"
@@ -56,12 +66,37 @@ module.exports.addDefaultStocks = (stocks) => {
   })
 }
 
-module.exports.allStocks = () => {
+module.exports.allStocks = (isAdmin) => {
   return new Promise((resolve, reject) => {
-    const query = `select stockname from stock`
+    const query = `select stockname ${isAdmin? ", id, price, photo": ''} from stock`
     pool.query(query, (err, data) => {
       if(err) reject(err)
       else resolve(data)
     })
+  })
+}
+
+module.exports.removeStock = (id) => {
+  return new Promise((resolve, reject) => {
+    const query = `delete from stock where id='${id}'`
+    pool.query(query, (err, data) => {
+      if(err) reject(err)
+      else resolve()
+    })
+  })
+}
+
+module.exports.updateStockWithId = (data) => {
+  return new Promise((resolve, reject) => {
+    if(data.stockname && data.id && data.price) {
+      const query = `update stock set stockname='${data.stockname}', price=${data.price} where id='${data.id}'`
+      pool.query(query, (err, data) => {
+        if(err) reject(err)
+        else resolve()
+      })
+    }
+    else {
+      reject("No required data")
+    }
   })
 }
